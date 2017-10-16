@@ -89,6 +89,7 @@
 
   <ul id="tabs" class="nav nav-pills nav-justified" data-tabs="tabs">
     <li class="active"><a href="#simple" data-toggle="tab"><span class="glyphicon glyphicon-tag"></span>  Simple</a></li>
+    <li><a href="#multiple" data-toggle="tab"><span class="glyphicon glyphicon-tags"></span>  Multiple</a></li>
     <li><a href="#advanced" data-toggle="tab"><span class="glyphicon glyphicon-tags"></span>  Advanced</a></li>
   </ul>
   <div id="my-tab-content" class="tab-content">
@@ -120,6 +121,35 @@
           </button>
         </div>
       </div>
+      </form>
+    </div>
+    <div class="tab-pane" id="multiple">
+      <form class="well" method="get" action="{{ baseHref }}db/{{ dbName }}/{{ collectionName | url_encode }}">
+        {% for column in columns %}
+          <input type="checkbox" name="sort[{{column}}]" class="hide sort-{{column}}" {% if sort[column] %}value="{{sort[column]}}" checked="checked"{% endif %}/>
+        {% endfor %}
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4">
+            <input style="width:100%;" class="input-medium form-control" type="text" id="key" name="key" placeholder="Key" title="Key" value="{{ key }}">
+          </div>
+          <div class="form-group col-sm-6 col-md-4">
+            <textarea class="input-medium form-control" style="width: 100%;" id="value" name="value" placeholder="Value" title="Value">{{ query }}</textarea>
+          </div>
+          <div class="form-group col-sm-6 col-md-2">
+            <select name="type" class="form-control">
+              <option value="B" {% if type == 'B' %}selected {% endif %}>Begin with</option>
+              <option value="E" {% if type == 'E' %}selected {% endif %}>End with</option>
+              <option value="M" {% if type == 'M' %}selected {% endif %}>Middle</option>
+              <option value="A" {% if type == 'A' %}selected {% endif %}>All Exact</option>
+            </select>
+          </div>
+          <div class="form-group col-sm-6 col-md-2">
+            <button type="submit" class="btn btn-primary btn-block">
+            <span class="glyphicon glyphicon-search"></span>
+            Find
+            </button>
+          </div>
+        </div>
       </form>
     </div>
     <div class="tab-pane" id="advanced">
